@@ -1,2 +1,2 @@
 # Play.Catalog 
-Play Economy Infra microservice.
+Play Economy Infraestructure setup.
