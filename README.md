@@ -79,7 +79,12 @@ kubectl apply -f cert-manager\cluster-issuer.yaml -n $namespace
 kubectl apply -f cert-manager\acme-challenge.yaml -n $namespace
 ```
 
-# Creating the TLS certificate
+## Creating the TLS certificate
 ```powershell
 kubectl apply -f emissary-ingress\tls-certificate.yaml -n $namespace
+```
+
+## Enabling tls and https
+```powershell
+kubectl apply -f emissary-ingress\host.yaml -n $namespace
 ```
