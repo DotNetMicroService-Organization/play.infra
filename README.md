@@ -64,3 +64,11 @@ kubectl rollout status deployment/emissary-ingress -n $namespace -w
 kubectl apply -f emissary-ingress\listener.yaml -n $namespace
 kubectl apply -f emissary-ingress\mappings.yaml -n $namespace
 ```
+
+## Installing cert-manager
+```powershell
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+
+helm install cert-manager jetstack/cert-manager --version v1.10.0 --set installCRDs=true --namespace $namespace
+```
