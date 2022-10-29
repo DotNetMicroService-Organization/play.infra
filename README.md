@@ -58,3 +58,9 @@ helm install emissary-ingress datawire/emissary-ingress --set service.annotation
 kubectl rollout status deployment/emissary-ingress -n $namespace -w
 
 ```
+
+## Configuring emissary-ingress routing
+```powershell
+kubectl apply -f emissary-ingress\listener.yaml -n $namespace
+kubectl apply -f emissary-ingress\mappings.yaml -n $namespace
+```
