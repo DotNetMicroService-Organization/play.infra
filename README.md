@@ -62,7 +62,7 @@ kubectl rollout status deployment/emissary-ingress -n $namespace -w
 ## Configuring emissary-ingress routing
 ```powershell
 kubectl apply -f emissary-ingress\listener.yaml -n $namespace
-kubectl apply -f emissary-ingress\mappings.yaml -n $namespace
+kubectl apply -f emissary-ingress\mappings.yaml -n $namespace 
 ```
 
 ## Installing cert-manager
@@ -99,7 +99,7 @@ $helmPassword=az acr login --name $appname --expose-token --output tsv --query a
 $env:HELM_EXPERIMENTAL_OCI=1
 helm registry login "$appname.azurecr.io" --username $helmUser --password $helmPassword
 
-helm push microservice-0.1.0.tgz oci://$appname.azurecr.io/helm
+helm push microservice-0.1.1.tgz oci://$appname.azurecr.io/helm
 ```
 
 ## create github service principal
