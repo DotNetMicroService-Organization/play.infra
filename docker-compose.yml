@@ -7,9 +7,9 @@ services:
     container_name: mongo
     # networks:
     #   - personal-net
-    ports: 
+    ports:
       - 27017:27017
-    volumes: 
+    volumes:
       - mongodbdata:/data/db
 
   rabbitmq:
@@ -17,130 +17,31 @@ services:
     container_name: rabbitmq
     # networks:
     #   - personal-net
-    ports: 
+    ports:
       - 5672:5672
       - 15672:15672
     volumes:
       - rabbitmqdata:/var/lib/rabbitmq
     hostname: rabbitmq
-  
-  # krakend_ce:
-  #   image: devopsfaith/krakend:1.4.1
-  #   container_name: krakend
-  #   command: run -d -c /etc/krakend/krakend.json
-  #   volumes:
-  #     - ./krakend:/etc/krakend
-  #   # networks:
-  #   #   - personal-net
-  #   ports:
-  #     - "8080:8080"
-  #     - "1234:1234"
-  #     - "8090:8090"
 
-  # keycloak:
-  #   image: quay.io/keycloak/keycloak:latest
-  #   container_name: keycloak
-  #   environment:
-  #     DB_VENDOR: POSTGRES
-  #     DB_ADDR: postgres
-  #     DB_DATABASE: keycloak
-  #     DB_USER: keycloak
-  #     DB_SCHEMA: public
-  #     DB_PASSWORD: password
-  #     KEYCLOAK_USER: admin
-  #     KEYCLOAK_PASSWORD: admin
-  #   ports:
-  #     - 9090:8080
-  #   # networks:
-  #   #   - personal-net
-  #   depends_on:
-  #     - postgres
+  seq:
+    image: datalust/seq
+    container_name: seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 80:80
+    volumes:
+      - seqdata:/data
 
-  # postgres:
-  #   image: postgres
-  #   container_name: postgres
-  #   # networks:
-  #   #   - personal-net
-  #   environment:
-  #     POSTGRES_DB: keycloak
-  #     POSTGRES_USER: keycloak
-  #     POSTGRES_PASSWORD: password
-  
-  # apm-server:
-  #   image: docker.elastic.co/apm/apm-server:7.15.1
-  #   container_name: APM-Server
-  #   depends_on:
-  #     elasticsearch:
-  #       condition: service_healthy
-  #     kibana:
-  #       condition: service_healthy
-  #   cap_add: ["CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID"]
-  #   cap_drop: ["ALL"]
-  #   ports:
-  #   - 8200:8200
-  #   networks:
-  #   - elastic
-  #   command: >
-  #      apm-server -e
-  #        -E apm-server.rum.enabled=true
-  #        -E setup.kibana.host=kibana:5601
-  #        -E setup.template.settings.index.number_of_replicas=0
-  #        -E apm-server.kibana.enabled=true
-  #        -E apm-server.kibana.host=kibana:5601
-  #        -E output.elasticsearch.hosts=["elasticsearch:9200"]
-  #   healthcheck:
-  #     interval: 10s
-  #     retries: 12
-  #     test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8200/
-
-  # elasticsearch:
-  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
-  #   container_name: Elasticsearch
-  #   environment:
-  #   - bootstrap.memory_lock=true
-  #   - cluster.name=docker-cluster
-  #   - cluster.routing.allocation.disk.threshold_enabled=false
-  #   - discovery.type=single-node
-  #   - ES_JAVA_OPTS=-XX:UseAVX=2 -Xms1g -Xmx1g
-  #   ulimits:
-  #     memlock:
-  #       hard: -1
-  #       soft: -1
-  #   volumes:
-  #   - esdata:/usr/share/elasticsearch/data
-  #   ports:
-  #   - 9200:9200
-  #   networks:
-  #   - elastic
-  #   healthcheck:
-  #     interval: 20s
-  #     retries: 10
-  #     test: curl -s http://localhost:9200/_cluster/health | grep -vq '"status":"red"'
-
-  # kibana:
-  #   image: docker.elastic.co/kibana/kibana:7.15.1
-  #   container_name: Kibana
-  #   depends_on:
-  #     elasticsearch:
-  #       condition: service_healthy
-  #   environment:
-  #     ELASTICSEARCH_URL: http://elasticsearch:9200
-  #     ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-  #   ports:
-  #   - 5601:5601
-  #   networks:
-  #   - elastic
-  #   healthcheck:
-  #     interval: 10s
-  #     retries: 20
-  #     test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:5601/api/status
-
-volumes: 
+volumes:
   mongodbdata:
   rabbitmqdata:
   esdata:
     driver: local
+  seqdata:
 
-# networks:
-#   elastic:
-#     driver: bridge
+    # networks:
+    #   elastic:
+    #     driver: bridge
