@@ -118,3 +118,11 @@ helm repo update
 
 helm install seq datalust/seq -n observability --create-namespace
 ```
+
+## Deploying JAEGER to AKS
+```powershell
+helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+helm repo update
+
+helm upgrade jaeger jaegertracing/jaeger --values jaeger\values.yaml -n observability --create-namespace --install
+```
