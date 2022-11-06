@@ -12,10 +12,10 @@ resources:
 container:
   liveness:
     path: /health/live
-    initialDelaySeconds: 30
+    initialDelaySeconds: 60
   readiness:
     path: /health/ready
-    initialDelaySeconds: 30
+    initialDelaySeconds: 60
 
 service:
   type: ClusterIP
