@@ -46,12 +46,23 @@ services:
       - 14268:16268
       - 16686:16686
 
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/otel.yml:/etc/prometheus/prometheus.yml
+      - prometheusdata:/prometheus
+
+
 volumes:
   mongodbdata:
   rabbitmqdata:
   esdata:
     driver: local
   seqdata:
+  prometheusdata:
 
     # networks:
     #   elastic:
